@@ -1,0 +1,30 @@
+{
+  "name": "TwilioNodeJsMongoSocket",
+  "version": "1.0.0",
+  "description": "TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project.",
+  "main": "index.js",
+  "scripts": {
+    "start":"node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://santiago-valecia@dev.azure.com/santiago-valecia/REPO%20SANTIAGO%20VALENCIA/_git/TwilioNodeJsMongoSocket"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^4.0.4",
+    "mongoose": "^5.9.19",
+    "morgan": "^1.10.0",
+    "socket.io": "^2.3.0",
+    "timeago.js": "^4.0.2",
+    "twilio": "^3.46.0"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.4"
+  }
+}
