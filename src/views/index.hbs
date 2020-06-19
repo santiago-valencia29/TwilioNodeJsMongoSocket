@@ -11,4 +11,20 @@
 
         </form>
     </div>
+    <div class="col-md-8">
+
+        {{#if messages}}
+      
+            {{#each messages}}
+              {{!-- 
+                  <span>{{hideNumber To}}</span>--}}
+              <div class="card card-body">
+                  <p>{{Body}}</p>
+                  <span>{{ To}}</span>
+              </div>
+            {{/each}}
+        {{else}}
+        <p>No messages yer</p>
+        {{/if}}
+    </div>
 </div>
