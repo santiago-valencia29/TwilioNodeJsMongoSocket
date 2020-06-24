@@ -1,9 +1,11 @@
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const { sendMessage } = require('../twilio/send-sms');
-const SMS = require('../models/sms')
+const SMS = require('../models/sms');
+
+const {getSocket} = require('../sockets');
 
 const indexController = async (req, res) => {
-    const messages = await SMS.find().lean(); //lean convierte a json
+    const messages = await SMS.find().sort('-createdAt').lean(); //lean convierte a json
     // messages.forEach(m => console.log(m.Body));
     res.render('index', { messages }) //llama el motor de plantilla
 
@@ -32,6 +34,8 @@ const receiveMessage = async (req, res) => {
      Body:req.body.Body,
      From:req.body.From
  })
+
+ getSocket().emit('new message',savedSMS);
 
  const twiml = new MessagingResponse();
 
