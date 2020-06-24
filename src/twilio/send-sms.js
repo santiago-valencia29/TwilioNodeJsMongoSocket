@@ -25,6 +25,11 @@ async function sendMessage(body, phone) {
     // console.log('message sended')
 }
 
+/**
+ * 
+ * @param {string} phone - the phone number
+ */
+
 async function phoneVerify(phone) {
     try {
         const verify = await client.lookups.phoneNumbers(phone).fetch({ type: ['carrier'] })
@@ -34,9 +39,7 @@ async function phoneVerify(phone) {
         const error = err.status;
         return error;
     }
-    // console.log('message sended')
 }
-
 
 module.exports = { sendMessage, phoneVerify };
 
