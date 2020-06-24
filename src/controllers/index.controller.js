@@ -1,8 +1,8 @@
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
-const { sendMessage } = require('../twilio/send-sms');
+const { sendMessage, phoneVerify } = require('../twilio/send-sms');
 const SMS = require('../models/sms');
 
-const {getSocket} = require('../sockets');
+const { getSocket } = require('../sockets');
 
 const indexController = async (req, res) => {
     const messages = await SMS.find().sort('-createdAt').lean(); //lean convierte a json
@@ -17,30 +17,35 @@ const postMessage = async (req, res) => {
 
     if (!message || !phone) return res.json('Missing message or phone');
 
-    const result = await sendMessage(req.body.message, req.body.phone);
+    const verify = await phoneVerify(req.body.phone);
+    if (verify === 404) {
+        res.status(404).json({ messages: 'not found phone' });
+    } else {
+        const result = await sendMessage(req.body.message, req.body.phone);
 
-    await SMS.create({ Body: req.body.message, To: req.body.phone })
+        await SMS.create({ Body: req.body.message, To: req.body.phone });
 
-    console.log(result.sid);
-    // res.send('received');
+        console.log(result.sid, verify);
 
-    res.redirect('/');
+        // res.send('received'); --comentado
+        res.redirect('/');
+    }
 }
 
 const receiveMessage = async (req, res) => {
- console.log(req.body);
+    console.log(req.body);
 
- const savedSMS = await SMS.create({
-     Body:req.body.Body,
-     From:req.body.From
- })
+    const savedSMS = await SMS.create({
+        Body: req.body.Body,
+        From: req.body.From
+    })
 
- getSocket().emit('new message',savedSMS);
+    getSocket().emit('new message', savedSMS);
 
- const twiml = new MessagingResponse();
+    const twiml = new MessagingResponse();
 
- twiml.message('This is my response');
- res.send(twiml.toString());
+    twiml.message('This is my response');
+    res.send(twiml.toString());
 }
 
 module.exports = {
