@@ -18,17 +18,21 @@ const postMessage = async (req, res) => {
     if (!message || !phone) return res.json('Missing message or phone');
 
     const verify = await phoneVerify(req.body.phone);
+    console.log('esta es', verify)
     if (verify === 404) {
         res.status(404).json({ messages: 'not found phone' });
     } else {
         const result = await sendMessage(req.body.message, req.body.phone);
+        if (result === 400) {
+            res.status(400).json({ messages: 'The number  is unverified' });
+        } else {
+            await SMS.create({ Body: req.body.message, To: req.body.phone });
 
-        await SMS.create({ Body: req.body.message, To: req.body.phone });
+            console.log(result.sid, verify);
 
-        console.log(result.sid, verify);
-
-        // res.send('received'); --comentado
-        res.redirect('/');
+            // res.send('received'); --comentado
+            res.redirect('/');
+        }
     }
 }
 

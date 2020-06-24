@@ -19,8 +19,10 @@ async function sendMessage(body, phone) {
         // console.log(message.sid)
         return message;
 
-    } catch (error) {
-        console.log(error)
+    } catch (err) {
+        // console.log(error);
+        const error = err.status;
+        return error;
     }
     // console.log('message sended')
 }
