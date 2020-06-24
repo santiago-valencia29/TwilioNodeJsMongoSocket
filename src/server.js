@@ -4,14 +4,14 @@ const morgan = require('morgan');
 const path = require('path');
 const app = express();
 
+// codigo de prueba:
 // app.get('/', (req,res)=>{
 //     res.send('hello world')
 // })
 
-// servidor en varias secciones:
+//  configurar servidor en varias secciones:
 
 //settings
-
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname,'views')); //para saber ubicación de archivos html
 app.engine('.hbs',exphbs({
@@ -24,13 +24,10 @@ app.engine('.hbs',exphbs({
 
 app.set('view engine','.hbs');
 
-
 //middlewares
 app.use(morgan('dev'));// para ver peticiones por consola
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
-
-
 
 //routes
 app.use(require('./routes/index.routes'));

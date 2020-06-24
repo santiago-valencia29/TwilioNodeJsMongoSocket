@@ -11,18 +11,22 @@
 
         </form>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8" >
 
         {{#if messages}}
-      
+      <ul class="list-group" style="height: 70vh; overflow-y: auto;">
+          
             {{#each messages}}
               {{!-- 
                   <span>{{hideNumber To}}</span>--}}
-              <div class="card card-body">
+              <div class="list-group-item list-group-item-ligth list-group-item-action">
                   <p>{{Body}}</p>
                   <span>{{ To}}</span>
+                    <span>{{ From}}</span>
+
               </div>
             {{/each}}
+      </ul>
         {{else}}
         <p>No messages yer</p>
         {{/if}}

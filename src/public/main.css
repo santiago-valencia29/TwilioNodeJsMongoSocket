@@ -3,3 +3,4 @@ input[type="tel"]{
     /* Use -webkit-text-security if the browser supports it */
     -webkit-text-security: disc;
 }
+

@@ -1,24 +1,14 @@
 const { Router } = require('express');
 const router = Router();
-const { sendMessage } = require('../twilio/send-sms');
-const SMS = require('../models/sms')
+const { indexController, postMessage, receiveMessage} = require('../controllers/index.controller');
 
-router.get('/', async (req, res) => {
-    const messages = await SMS.find().lean(); //lean convierte a json
-    // messages.forEach(m => console.log(m.Body));
-    res.render('index',{messages}) //llama el motor de plantilla
-});
+//ruta principal
+router.get('/', indexController);
 
-router.post('/send-sms', async (req, res) => {
-    // console.log(req.body);
-    const result = await sendMessage(req.body.message, req.body.phone);
+//ruta que nos permite enviar sms
+router.post('/send-sms', postMessage);
 
-    await SMS.create({Body:req.body.message, To:req.body.phone})
-
-    console.log(result.sid);
-    // res.send('received');
-
-    res.redirect('/');
-});
+//ruta para recibir sms
+router.post('/sms', receiveMessage);
 
 module.exports = router;
